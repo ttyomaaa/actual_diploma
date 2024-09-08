@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Generate Temporary Link</title>
 </head>
 <body>
-$END$
+    <h1>Generate Temporary Link</h1>
+    <form id="generate-link-form">
+        <label for="author-id">Author:</label>
+        <input type="text" id="author-id" name="author-id" required>
+        <br>
+        <label for="expiration-minutes">Expiration Minutes:</label>
+        <input type="number" id="expiration-minutes" name="expiration-minutes" value="30" min="1" required>
+        <br>
+        <button type="submit">Generate Link</button>
+    </form>
+    <div id="temporary-link"></div>
+
+    <script>
+        let pollingInterval;
+        document.getElementById("generate-link-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const authorId = document.getElementById("author-id").value;
+            const expirationMinutes = document.getElementById("expiration-minutes").value;
+
+            fetch("/generate_link", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    author_id: authorId,
+                    expiration_minutes: expirationMinutes
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const taskId = data.task_id;
+                pollingInterval = setInterval(() => checkTaskStatus(taskId), 5000);
+                document.getElementById('temporary-link').innerHTML = 'Идет генерация ссылки...';
+                // document.getElementById("temporary-link").innerHTML = `<a href="${data.temporary_link}" target="_blank">Temporary Link</a>`;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+
+        function checkTaskStatus(taskId) {
+            fetch(`/check_task_status/${taskId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (data.status === 'SUCCESS') {
+                displayResult(data.result);
+                clearInterval(pollingInterval);
+              }
+            })
+            .catch(error => {
+              console.error('Ошибка при проверке статуса задачи:', error);
+            });
+        }
+
+        function displayResult(result) {
+          document.getElementById('temporary-link').innerHTML = `<a href="${result}" target="_blank">Temporary Link</a>`;
+        }
+
+        //const pollingInterval = setInterval(() => checkTaskStatus(taskId), 5000);
+    </script>
 </body>
 </html>

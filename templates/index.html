@@ -1,10 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Chatbot</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <style>
+        @font-face {
+            font-family: "open-sans";
+            src: local("open-sans"), url("/static/fonts/static/OpenSans-Regular.ttf") format("truetype")
+        }
+        p {
+            font-family: "open-sans", sans-serif;
+        }
+        body {
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        #chat-container {
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        #message-input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        #send-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+        #message-form {
+            width: 80%;
+            max-width: 600px;
+            display: flex;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <div id="chat-container"></div>
+    <form id="message-form">
+        <label for="message-input"></label><input type="text" id="message-input" name="message" placeholder="Type your answer..." required>
+        <button type="submit" id="send-button">Send</button>
+    </form>
+
+    <!-- Your JavaScript code here -->
 </body>
-</html>

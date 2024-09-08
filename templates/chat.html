@@ -1,10 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/main.css') }}">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <style>
+        p{
+            font-family: "open-sans", sans-serif;
+        }
+        h1 {
+            font-family: "open-sans", sans-serif;
+            background-color: #4676D7;
+            border: 1px solid #ccc;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 80%;
+            max-width: 800px;"
+        }
+        body {
+            background: #ffffff;
+            background: -webkit-linear-gradient(90deg, #ffffff 0%, rgba(0, 123, 255, 0.1) 100%);
+            background: linear-gradient(90deg, #ffffff 0%, rgba(0, 123, 255, 0.1) 100%);
+        }
+        body {
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        #message-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #send-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+        #chat-container {
+            width: 80%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            height: 600px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        #message-form {
+            width: 80%;
+            max-width: 820px;
+            display: flex;
+        }
+        #message-input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .bot-message {
+            font-family: "open-sans", sans-serif;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .user-message {
+            font-family: "open-sans", sans-serif;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <h1>Комната: {room_id}</h1>
+    <div id="chat-container"></div>
+    <form id="message-form">
+        <label for="message-input"></label><input type="text" id="message-input" name="message" placeholder="Напечатайте ответ..." required>
+        <button type="submit" id="send-button">Отправить</button>
+    </form>
+
+    <script>
+        // Получение room_id и token из URL
+        const url = new URL(window.location.href);
+        const roomId = url.pathname.split('/').pop();
+        const token = url.searchParams.get("token");
+
+        const roomIdElement = document.querySelector('h1');
+        roomIdElement.innerText = `Комната: ${roomId}`;
+
+        const socket = new WebSocket(`ws://localhost:800/chat/${roomId}?token=${token}`);
+
+        socket.addEventListener("open", (event) => {
+            console.log("WebSocket connected");
+        });
+
+        socket.addEventListener("message", (event) => {
+            const chatContainer = document.getElementById("chat-container");
+            chatContainer.innerHTML += `<div class="bot-message"><img src="{{ url_for('static', path='/robot.png') }}" alt="Bot" style="width:30px; height:30px; margin-right:10px;"><b>Бот:</b> ${event.data}</div>`;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        });
+
+        const messageForm = document.getElementById("message-form");
+        messageForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const messageInput = document.getElementById("message-input");
+            const message = messageInput.value.trim();
+            if (message !== "") {
+                socket.send(message);
+                const chatContainer = document.getElementById("chat-container");
+                chatContainer.innerHTML += `<div class="user-message"><img src="{{ url_for('static', path='/human.png') }}" alt="You" style="width:30px; height:30px; margin-right:10px;"><b>Вы:</b> ${message}</div>`;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                messageInput.value = "";
+            }
+        });
+    </script>
 </body>
 </html>
