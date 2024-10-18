@@ -3,17 +3,20 @@ from fastapi import (FastAPI,
                      Request,
                      WebSocketDisconnect,
                      HTTPException,
-                     Response)
+                     Response,
+                     File, UploadFile, Form)
 from starlette.staticfiles import StaticFiles
 from links import generate_tmp_link, verify_tmp_link
 from config.settings import SECRET_KEY
 from fastapi.templating import Jinja2Templates
 from user_handler import process_message, process_room
 from pydantic import BaseModel
+from typing import Annotated
 from celery import Celery
 from fill_tables import context_list
 from db.insert_data import create_room
 from load_models import load_models
+from text_handler import handle_text, handle_file
 from celery.result import AsyncResult
 import os
 import asyncio
@@ -37,15 +40,14 @@ cel = Celery('tasks',
 models = load_models()
 
 
-class LinkRequest(BaseModel):
-    author_id: str
-    expiration_minutes: int
-
-
 @cel.task
-def generate_link_task(author_id, expiration_minutes):
+def generate_link_task(author_id, expiration_minutes, option, text_area, file_location):
+    if option == 'text':
+        contexts = handle_text(text_area)
+    else:
+        contexts = handle_file(file_location)
     loop = asyncio.get_event_loop()
-    room_id, last_idx = loop.run_until_complete(create_room(models=models, published_by=author_id, contexts=context_list))
+    room_id, last_idx = loop.run_until_complete(create_room(models=models, published_by=author_id, contexts=contexts))
     loop.run_until_complete(process_room(room_id=room_id, last_idx=last_idx, rdb=rdb))
     temporary_link = generate_tmp_link(str(room_id), SECRET_KEY, expiration_minutes)
 
@@ -58,9 +60,19 @@ async def read_root(request: Request):
 
 
 @app.post("/generate_link")
-async def generate_link(request: LinkRequest):
-    task = generate_link_task.apply_async(args=(request.author_id, request.expiration_minutes))
-
+async def generate_link(
+        author_id: Annotated[str, Form()],
+        expiration_minutes: Annotated[int, Form()],
+        option: Annotated[str, Form()],
+        text_area: Annotated[str, Form()] = None,
+        file_area: Annotated[UploadFile, File()] = None
+        ):
+    file_location = ""
+    if option == 'file':
+        file_location = f"C:/Users/User/PycharmProjects/actual_diploma/files/{file_area.filename}"
+        with open(file_location, "wb+") as file_object:
+            file_object.write(file_area.file.read())
+    task = generate_link_task.apply_async(args=(author_id, expiration_minutes, option, text_area, file_location))
     return {"task_id": task.id}
 
 

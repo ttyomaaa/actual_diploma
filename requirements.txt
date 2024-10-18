@@ -16,3 +16,7 @@ PyJWT
 redis
 celery
 numpy==1.24.1
+python-multipart==0.0.12
+pytesseract
+pillow
+pymupdf
