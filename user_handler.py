@@ -1,5 +1,6 @@
 import json
 from db.get_data import get_question, get_answer_keyword
+from db.insert_data import create_poll
 from typing import Tuple, Union
 
 THRESHOLD = 0.75
@@ -44,7 +45,7 @@ async def process_user(user_id: str, room_id: str, rdb) -> Tuple[str, str]:
 
     if not received_data:
         counter = "1"
-        recommend = "Опрос завершен. Темы рекомендаций:"
+        recommend = f"Опрос для {user_id} завершен. Темы рекомендаций:"
     else:
         received_data = json.loads(received_data)
         counter = received_data['counter']
@@ -82,7 +83,9 @@ async def process_message(user_id: str, room_id: str, message: str, models, rdb)
         user_data = json.dumps({'room_id': room_id, 'user_id': user_id})
         received_data = await rdb.get(user_data)
         recommend = json.loads(received_data)['recommend']
-        return msg, recommend
+        poll_id = await create_poll(id_room=int(room_id), result=recommend, user_id=user_id)
+        final_recommend = recommend + f"Номер Вашего результата: {poll_id}"
+        return msg, final_recommend
     elif int(count) > int(max_idx):
         return "after last q", "filler"
     else:

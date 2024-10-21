@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daf1e44f-da1d-4756-9f13-d3d71ee973f7" name="Changes" comment="actual commit">
-      <change afterPath="$PROJECT_DIR$/text_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+    <list default="true" id="daf1e44f-da1d-4756-9f13-d3d71ee973f7" name="Changes" comment="file uploading and end2end pdf work">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/generate_poll.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/generate_poll.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/insert_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/insert_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_handler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +165,9 @@
       <workItem from="1729201778041" duration="4880000" />
       <workItem from="1729255535381" duration="3093000" />
       <workItem from="1729262504801" duration="2529000" />
-      <workItem from="1729265073036" duration="1273000" />
+      <workItem from="1729265073036" duration="1473000" />
+      <workItem from="1729364029330" duration="3000" />
+      <workItem from="1729514563387" duration="3055000" />
     </task>
     <task id="LOCAL-00001" summary="actual commit">
       <option name="closed" value="true" />
@@ -177,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725797468492</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="file uploading and end2end pdf work">
+      <option name="closed" value="true" />
+      <created>1729266543472</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729266543473</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +193,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="actual commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="actual commit" />
+    <MESSAGE value="file uploading and end2end pdf work" />
+    <option name="LAST_COMMIT_MESSAGE" value="file uploading and end2end pdf work" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/actual_diploma$localtest.coverage" NAME="localtest Coverage Results" MODIFIED="1724940638583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -193,7 +202,7 @@
     <SUITE FILE_PATH="coverage/actual_diploma$fill_tables.coverage" NAME="fill_tables Coverage Results" MODIFIED="1725447810577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/actual_diploma$init_tables.coverage" NAME="init_tables Coverage Results" MODIFIED="1725445051828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/actual_diploma$user_handler.coverage" NAME="user_handler Coverage Results" MODIFIED="1725456996452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/actual_diploma$actual_diploma.coverage" NAME="actual_diploma Coverage Results" MODIFIED="1729265616542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/actual_diploma$actual_diploma.coverage" NAME="actual_diploma Coverage Results" MODIFIED="1729517102409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/actual_diploma$main.coverage" NAME="main Coverage Results" MODIFIED="1725453350116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/actual_diploma$check_tables.coverage" NAME="check_tables Coverage Results" MODIFIED="1725703070551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

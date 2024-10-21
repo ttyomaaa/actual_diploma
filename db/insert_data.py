@@ -1,5 +1,5 @@
 from db.engine import async_session
-from db.models.models import Room, Context, Question, Answer, Keyword
+from db.models.models import Room, Context, Question, Answer, Keyword, Poll
 from typing import List
 
 
@@ -37,3 +37,12 @@ async def create_room(models, published_by: str, contexts: List[str]):
             session.add(keyword)
         await session.commit()
     return room.id_room, idx
+
+
+async def create_poll(id_room: int, result: str, user_id: str) -> int:
+    async with async_session() as session:
+        poll = Poll(id_room=id_room, result=result, username=user_id)
+        session.add(poll)
+        await session.flush()
+        await session.commit()
+    return poll.id_poll
